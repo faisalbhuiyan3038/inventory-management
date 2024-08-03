@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { Camera } from "react-camera-pro";
 import { firestore } from "@/firebase";
 import {
   Box,
@@ -19,12 +20,18 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
+import CameraComp from "./camera";
 
 export default function Home() {
   const [inventory, setInventory] = useState([]);
   const [open, setOpen] = useState(false);
+  const [cameraOpen, setCameraOpen] = useState(false);
   const [itemName, setItemName] = useState("");
   const [searchText, setSearchText] = useState("");
+
+  //react-camera
+  const camera = useRef(null);
+  const [image, setImage] = useState(null);
 
   const updateInventory = async () => {
     //fetch the snapshot
@@ -80,6 +87,9 @@ export default function Home() {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleCameraOpen = () => setCameraOpen(true);
+  const handleCameraClose = () => setCameraOpen(false);
 
   var filteredItemName;
   const filteredInventory = inventory.filter((item) => {
@@ -147,6 +157,38 @@ export default function Home() {
           </Box>
         </Modal>
 
+        <Modal open={cameraOpen} onClose={handleCameraClose}>
+          <Box
+            position="absolute"
+            top="50%"
+            left="50%"
+            width={400}
+            bgcolor="white"
+            border="2px solid #000"
+            boxShadow={24}
+            p={4}
+            display="flex"
+            flexDirection="column"
+            gap={3}
+            sx={{
+              transform: "translate(-50%,-50%)",
+            }}
+          >
+            <Typography variant="h6">Upload Image</Typography>
+            <Stack width="100%" direction="row" spacing={2}>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  <Camera ref={camera} />;
+                  handleCameraClose;
+                }}
+              >
+                UPLOAD
+              </Button>
+            </Stack>
+          </Box>
+        </Modal>
+
         <Box borderRadius="40px" border="1px solid #333">
           <Box
             sx={{
@@ -165,7 +207,7 @@ export default function Home() {
             <Box
               sx={{
                 width: {
-                  lg: "800px",
+                  lg: "500px",
                   sm: "200px",
                 },
               }}
@@ -184,11 +226,21 @@ export default function Home() {
 
             <Button
               variant="contained"
+              sx={{ marginRight: 2 }}
               onClick={() => {
                 handleOpen();
               }}
             >
               Add New Item
+            </Button>
+
+            <Button
+              variant="outlined"
+              onClick={() => {
+                handleCameraOpen();
+              }}
+            >
+              Upload Image
             </Button>
           </Box>
 
@@ -209,7 +261,13 @@ export default function Home() {
                 justifyContent="space-between"
                 padding={5}
               >
-                <Box>
+                <Box
+                  width="50vw"
+                  minHeight="150px"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
                   <Typography
                     sx={{
                       typography: {
@@ -221,18 +279,6 @@ export default function Home() {
                     textAlign="left"
                   >
                     {name.charAt(0).toUpperCase() + name.slice(1)}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      typography: {
-                        lg: "h3",
-                        sm: "h5",
-                      },
-                    }}
-                    color="#333"
-                    textAlign="center"
-                  >
-                    {quantity}
                   </Typography>
                   <Stack direction="row" spacing={2}>
                     <Button
@@ -253,6 +299,19 @@ export default function Home() {
                     </Button>
                   </Stack>
                 </Box>
+
+                <Typography
+                  sx={{
+                    typography: {
+                      lg: "h3",
+                      sm: "h5",
+                    },
+                  }}
+                  color="#333"
+                  textAlign="center"
+                >
+                  {quantity}
+                </Typography>
               </Box>
             ))}
           </Stack>
