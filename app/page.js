@@ -20,7 +20,6 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import CameraComp from "./camera";
 
 export default function Home() {
   const [inventory, setInventory] = useState([]);
@@ -31,7 +30,8 @@ export default function Home() {
 
   //react-camera
   const camera = useRef(null);
-  const [image, setImage] = useState(null);
+  const [capturedImage, setCapturedImage] = useState(null);
+  const [isImageCaptured, setIsImageCaptured] = useState(false);
 
   const updateInventory = async () => {
     //fetch the snapshot
@@ -91,6 +91,11 @@ export default function Home() {
   const handleCameraOpen = () => setCameraOpen(true);
   const handleCameraClose = () => setCameraOpen(false);
 
+  const handleImageCapture = () => {
+    setIsImageCaptured(true);
+    console.log(isImageCaptured);
+  };
+
   var filteredItemName;
   const filteredInventory = inventory.filter((item) => {
     const filteredItemName = item.name;
@@ -107,6 +112,7 @@ export default function Home() {
       >
         Inventory Tracker
       </Typography>
+      {/* <img src={capturedImage} alt="Image preview" /> */}
       <Box
         width="100vw"
         height="100vh"
@@ -159,10 +165,9 @@ export default function Home() {
 
         <Modal open={cameraOpen} onClose={handleCameraClose}>
           <Box
-            position="absolute"
+            position="relative"
             top="50%"
             left="50%"
-            width={400}
             bgcolor="white"
             border="2px solid #000"
             boxShadow={24}
@@ -172,20 +177,54 @@ export default function Home() {
             gap={3}
             sx={{
               transform: "translate(-50%,-50%)",
+              width: {
+                lg: "600px",
+                sm: "500px",
+              },
             }}
           >
             <Typography variant="h6">Upload Image</Typography>
-            <Stack width="100%" direction="row" spacing={2}>
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  <Camera ref={camera} />;
-                  handleCameraClose;
-                }}
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              gap={1}
+            >
+              <Box
+                width="100%"
+                sx={{ height: { lg: "560px", sm: "400px" } }}
+                position="relative"
+                mb={1}
               >
-                UPLOAD
-              </Button>
-            </Stack>
+                <Camera ref={camera} aspectRatio={1 / 1} />
+              </Box>
+              <Stack width="100%" direction="row" spacing={2}>
+                <Button variant="outlined" onClick={handleCameraClose}>
+                  UPLOAD
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    const photo = camera.current.takePhoto();
+                    setCapturedImage(photo);
+                    handleImageCapture();
+                    console.log(isImageCaptured);
+                  }}
+                >
+                  CAPTURE
+                </Button>
+
+                {isImageCaptured ? (
+                  <Typography sx={{ color: "green" }} variant="body2">
+                    Image is Captured. Upload now.
+                  </Typography>
+                ) : (
+                  <Typography sx={{ color: "red" }} variant="body2">
+                    Nothing is Captured Yet.
+                  </Typography>
+                )}
+              </Stack>
+            </Box>
           </Box>
         </Modal>
 
