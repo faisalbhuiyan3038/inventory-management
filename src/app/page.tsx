@@ -1,9 +1,23 @@
 "use client";
+import { useEffect, useState } from "react";
+import { addInventoryItem, getInventoryItems } from '../inventoryService.js';
 
-import { useState } from "react";
+
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [inventory, setInventory] = useState([]);
+  const [newItem, setNewItem] = useState("");
+  const [searchText, setSearchText] = useState("");
+
+  useEffect(() => {
+    async function fetchInventory() {
+      const items = await getInventoryItems();
+      console.log(items);
+      setInventory(items);
+    }
+    fetchInventory();
+  }, []);
 
   return (
     <div className="mx-10 md:mx-48 mt-10 md:mt-24 p-4 rounded-xl bg-green-200">
