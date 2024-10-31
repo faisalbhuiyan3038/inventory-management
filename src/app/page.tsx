@@ -13,7 +13,6 @@ export default function Home() {
   useEffect(() => {
     async function fetchInventory() {
       const items = await getInventoryItems();
-      console.log(items);
       setInventory(items);
     }
     fetchInventory();
@@ -90,46 +89,18 @@ export default function Home() {
 
       </div>
 
-
       <div className="grid gap-4 p-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        <div className="p-4 bg-blue-100 rounded-lg flex justify-between items-center">
-          <span>Table</span>
-          <div className="flex space-x-2">
-            <button className="text-blue-500">+</button>
-            <button className="text-blue-500">-</button>
-          </div>
-        </div>
-        <div className="p-4 bg-blue-100 rounded-lg flex justify-between items-center">
-          <span>Table</span>
-          <div className="flex space-x-2">
-            <button className="text-blue-500">+</button>
-            <button className="text-blue-500">-</button>
-          </div>
-        </div>
-        <div className="p-4 bg-blue-100 rounded-lg flex justify-between items-center">
-          <span>Table</span>
-          <div className="flex space-x-2">
-            <button className="text-blue-500">+</button>
-            <button className="text-blue-500">-</button>
-          </div>
-        </div>
-        <div className="p-4 bg-blue-100 rounded-lg flex justify-between items-center">
-          <span>Table</span>
-          <div className="flex space-x-2">
-            <button className="text-blue-500">+</button>
-            <button className="text-blue-500">-</button>
-          </div>
-        </div>
-        <div className="p-4 bg-blue-100 rounded-lg flex justify-between items-center">
-          <span>Table</span>
-          <div className="flex space-x-2">
-            <button className="text-blue-500">+</button>
-            <button className="text-blue-500">-</button>
-          </div>
-        </div>
-        <div className="p-4 bg-blue-100 rounded-lg flex justify-between items-center">
 
-        </div>
+        {inventory.map(({ name, quantity }) => (
+          <div key={name} className="p-3 bg-blue-100 rounded-lg flex justify-between items-center">
+            <span className="text-xl">{name.charAt(0).toUpperCase() + name.slice(1)}</span>
+            <div className="flex space-x-2">
+              <button className="text-2xl text-blue-500">+</button>
+              <p className="text-2xl">{quantity}</p>
+              <button className="text-2xl text-blue-500">-</button>
+            </div>
+          </div>
+        ))}
 
       </div>
 
