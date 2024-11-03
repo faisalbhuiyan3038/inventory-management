@@ -1,5 +1,5 @@
 import { db } from './firebase.js';
-import { doc, query, collection, getDoc, setDoc, getDocs, docSnap } from 'firebase/firestore';
+import { doc, query, collection, getDoc, setDoc, getDocs, docSnap, deleteDoc } from 'firebase/firestore';
 
 //Function to add new item to inventory
 export async function addInventoryItem(itemName) {
@@ -39,7 +39,7 @@ export async function removeInventoryItem(itemName) {
 }
 
 //Function to fetch all inventory items
-export async function getInventoryItems() {
+export async function getInventoryItems(searchText) {
   // const querySnapshot = await getDocs(collection(db, 'inventory'));
   // return querySnapshot.docs.map((doc) => ({ name: doc.id, ...doc.data() }));
   try {
@@ -52,8 +52,16 @@ export async function getInventoryItems() {
         ...doc.data(),
       });
     });
-    console.log(inventoryList);
-    return inventoryList;
+
+    if (searchText == null || searchText == "") {
+      return inventoryList;
+    } else {
+      const filteredInventory = inventoryList.filter((item) => {
+        const filteredItemName = item.name;
+        return filteredItemName.toLowerCase().includes(searchText.toLowerCase());
+      });
+      return filteredInventory;
+    }
   } catch (error) {
     console.log(error);
   }
