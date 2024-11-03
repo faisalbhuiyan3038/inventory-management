@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { addInventoryItem, getInventoryItems } from '../inventoryService.js';
-
+import { addInventoryItem, removeInventoryItem, getInventoryItems } from '../inventoryService.js';
 
 
 export default function Home() {
@@ -10,11 +9,12 @@ export default function Home() {
   const [newItem, setNewItem] = useState("");
   const [searchText, setSearchText] = useState("");
 
+  async function fetchInventory() {
+    const items = await getInventoryItems();
+    setInventory(items);
+  }
+
   useEffect(() => {
-    async function fetchInventory() {
-      const items = await getInventoryItems();
-      setInventory(items);
-    }
     fetchInventory();
   }, []);
 
@@ -95,9 +95,19 @@ export default function Home() {
           <div key={name} className="p-3 bg-blue-100 rounded-lg flex justify-between items-center">
             <span className="text-xl">{name.charAt(0).toUpperCase() + name.slice(1)}</span>
             <div className="flex space-x-2">
-              <button className="text-2xl text-blue-500">+</button>
+              <button
+                onClick={() => {
+                  addInventoryItem(name);
+                  fetchInventory();
+                }}
+                className="text-2xl text-blue-500">+</button>
               <p className="text-2xl">{quantity}</p>
-              <button className="text-2xl text-blue-500">-</button>
+              <button
+                onClick={() => {
+                  removeInventoryItem(name);
+                  fetchInventory();
+                }}
+                className="text-2xl text-blue-500">-</button>
             </div>
           </div>
         ))}

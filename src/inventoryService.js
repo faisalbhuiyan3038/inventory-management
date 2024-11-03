@@ -1,13 +1,38 @@
 import { db } from './firebase.js';
-import { query, collection, addDoc, getDocs } from 'firebase/firestore';
+import { doc, query, collection, getDoc, setDoc, getDocs, docSnap } from 'firebase/firestore';
 
 //Function to add new item to inventory
-export async function addInventoryItem(name, quantity) {
+export async function addInventoryItem(itemName) {
   try {
-    await addDoc(collection(db, "inventory"), {
-      name: name,
-      quantity: quantity,
-    });
+    const docRef = doc(collection(db, "inventory"), itemName);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const { quantity } = docSnap.data();
+      await setDoc(docRef, { quantity: quantity + 1 });
+    } else {
+      await setDoc(docRef, { quantity: 1 });
+    }
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
+
+export async function removeInventoryItem(itemName) {
+  try {
+    const docRef = doc(collection(db, "inventory"), itemName);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const { quantity } = docSnap.data();
+      if (quantity === 1) {
+        await deleteDoc(docRef);
+      } else {
+        await setDoc(docRef, { quantity: quantity - 1 });
+      }
+    }
+
   } catch (e) {
     console.error("Error adding document: ", e);
   }
