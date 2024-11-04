@@ -1,14 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Player } from '@lottiefiles/react-lottie-player';
-import * as animatedCamera from '../lotties/cameraAnimated.json';
 import { addInventoryItem, removeInventoryItem, getInventoryItems } from '../inventoryService.js';
+import CameraPage from "./components/camera.jsx";
 
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inventory, setInventory] = useState([]);
   const [newItemName, setNewItemName] = useState("");
+  const [openCamera, setOpenCamera] = useState(false);
+  const [image, setImage] = useState(null);
 
   async function fetchInventory(searchText) {
     const items = await getInventoryItems(searchText);
@@ -18,6 +19,20 @@ export default function Home() {
   useEffect(() => {
     fetchInventory("");
   }, []);
+
+  if (openCamera) {
+    return (
+      <div>
+        <CameraPage
+          image={image}
+          setImage={(value) => setImage(value)}
+          setOpenCamera={() => {
+            setOpenCamera(false);
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -154,10 +169,10 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="relative">
             <button onClick={() => setIsModalOpen(true)} className="fixed bottom-4 right-4 bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-2xl shadow-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M12 8.5v7M8.5 12h7" /><rect width="16.5" height="16.5" x="3.75" y="3.75" rx="4" /></g></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"><path d="M12 8.5v7M8.5 12h7" /><rect width="16.5" height="16.5" x="3.75" y="3.75" rx="4" /></g></svg>
             </button>
-            <button className="fixed bottom-4 left-4 bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-2xl shadow-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M12.857 3.189h-1.714c-.681 0-1.022 0-1.331.094c-.274.083-.529.22-.75.401c-.25.205-.438.489-.816 1.056L7.103 6.454c-1.524 0-2.286 0-2.868.296a2.72 2.72 0 0 0-1.188 1.19c-.297.581-.297 1.343-.297 2.867v5.651c0 1.524 0 2.286.297 2.868c.26.512.677.928 1.188 1.189c.582.296 1.344.296 2.868.296h9.794c1.524 0 2.286 0 2.868-.296a2.72 2.72 0 0 0 1.188-1.19c.297-.581.297-1.343.297-2.867v-5.651c0-1.524 0-2.286-.297-2.868a2.72 2.72 0 0 0-1.188-1.189c-.582-.296-1.344-.296-2.868-.296L15.754 4.74c-.378-.567-.567-.85-.816-1.056a2.2 2.2 0 0 0-.75-.401c-.309-.094-.65-.094-1.331-.094" /><path d="M15.775 13.212a3.775 3.775 0 1 1-7.55 0a3.775 3.775 0 0 1 7.55 0" /></g></svg>
+            <button onClick={() => setOpenCamera(true)} className="fixed bottom-4 left-4 bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-2xl shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"><path d="M12.857 3.189h-1.714c-.681 0-1.022 0-1.331.094c-.274.083-.529.22-.75.401c-.25.205-.438.489-.816 1.056L7.103 6.454c-1.524 0-2.286 0-2.868.296a2.72 2.72 0 0 0-1.188 1.19c-.297.581-.297 1.343-.297 2.867v5.651c0 1.524 0 2.286.297 2.868c.26.512.677.928 1.188 1.189c.582.296 1.344.296 2.868.296h9.794c1.524 0 2.286 0 2.868-.296a2.72 2.72 0 0 0 1.188-1.19c.297-.581.297-1.343.297-2.867v-5.651c0-1.524 0-2.286-.297-2.868a2.72 2.72 0 0 0-1.188-1.189c-.582-.296-1.344-.296-2.868-.296L15.754 4.74c-.378-.567-.567-.85-.816-1.056a2.2 2.2 0 0 0-.75-.401c-.309-.094-.65-.094-1.331-.094" /><path d="M15.775 13.212a3.775 3.775 0 1 1-7.55 0a3.775 3.775 0 0 1 7.55 0" /></g></svg>
             </button>
           </div>
         </div>
