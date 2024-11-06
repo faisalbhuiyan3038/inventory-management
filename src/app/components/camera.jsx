@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Camera } from 'react-camera-pro';
 import { Camera as CameraIcon, X, ArrowLeft, Send, SwitchCamera, Flashlight } from 'lucide-react';
 import PropTypes from 'prop-types';
+import { addInventoryItem } from '@/inventoryService';
 
 const CameraPage = ({ setOpenCamera, image, setImage }) => {
   const [numberOfCameras, setNumberOfCameras] = useState(0);

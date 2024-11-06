@@ -47,7 +47,10 @@ export default function Home() {
           onClick={() => setIsModalOpen(false)}
         />
       )}
-      <h1 className="grid place-items-center font-semibold p-4 mb-4 text-3xl">Inventory Management</h1>
+      <div className="inline-grid grid-flow-col place-items-center font-semibold p-4 mb-4 text-2xl md:text-3xl">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m21 11.5l1.5 1.5l-6.99 7L11 15.5l1.5-1.5l3.01 3z" /><path fill="currentColor" d="M17 5v3H7V5H5v14h6.68l-3.51-3.5l4.33-4.33l3.01 3l3.49-3.5V5z" opacity="0.3" /><path fill="currentColor" d="M5 19V5h2v3h10V5h2v5.67l2-2V5c0-1.1-.9-2-2-2h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8.68l-2-2zm7-16c.55 0 1 .45 1 1s-.45 1-1 1s-1-.45-1-1s.45-1 1-1" /></svg>
+        <h1 className="ml-4">Inventory Management</h1>
+      </div>
 
       <div className="mx-4 md:mx-6">
         {/* <button onClick={() => setIsModalOpen(true)}
@@ -87,15 +90,13 @@ export default function Home() {
 
 
             {isModalOpen && (
-              <div id="addInventory-modal" tabIndex={-1} aria-hidden="true" className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full  h-[calc(100%-1rem)] max-h-full">
+              <div id="addInventory-modal" tabIndex={-1} aria-hidden="true" className="flex overflow-y-auto overflow-x-hidden fixed top-20 right-0 left-0 z-50 justify-center items-center w-full  h-[calc(100%-1rem)] max-h-full">
                 <div className="relative p-4 w-full max-w-md max-h-full">
                   {/* Modal content */}
-                  <div className="relative rounded-lg shadow bg-gray-700">
+                  <div className="relative rounded-xl shadow bg-black bg-opacity-65">
                     {/* Modal header */}
-                    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                        Add new Item
-                      </h3>
+                    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
+
                       <button onClick={() => setIsModalOpen(false)}
                         type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
                         <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -105,28 +106,33 @@ export default function Home() {
                       </button>
                     </div>
                     {/* Modal body */}
+                    <h3 className="text-lg text-center mt-5 font-semibold text-white ">
+                      Add New Item
+                    </h3>
                     <form className="p-4 md:p-5">
                       <div className="grid gap-4 mb-4 grid-cols-2">
                         <div className="col-span-2">
-                          <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+
                           <input value={newItemName}
                             onChange={(e) => {
                               setNewItemName(e.target.value);
                             }}
-                            type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type inventory name" />
+                            type="text" name="name" id="name" className="border text-sm rounded-lg block w-full p-2.5 bg-black bg-opacity-25 border-gray-500 placeholder-gray-400 text-white text-center focus:ring-primary-500 focus:border-primary-500" placeholder="Type inventory name" />
                         </div>
                       </div>
-                      <button type="button"
-                        onClick={() => {
-                          addInventoryItem(newItemName);
-                          setNewItemName("");
-                          fetchInventory("");
-                          setIsModalOpen(false);
-                        }}
-                        className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
-                        Add new Item
-                      </button>
+                      <div className="grid place-items-center">
+                        <button type="button"
+                          onClick={() => {
+                            addInventoryItem(newItemName);
+                            setNewItemName("");
+                            fetchInventory("");
+                            setIsModalOpen(false);
+                          }}
+                          className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                          <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
+                          Add new Item
+                        </button>
+                      </div>
                     </form>
                   </div>
                 </div>
