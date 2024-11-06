@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: #F8FAFC;
+  /* Replace with your desired color */
+}
+
+.primary-button {
+  color: #6366F1;
+}
+
+.secondary-button {
+  color: #DC2626
+}
+
+.searchBg {
+  background-color: #F1F5F9;
+}
+
+.cardBg {
+  border-color: #E2E8F0;
+}
+
+.card {
+  transform: scale(1);
+  transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* Optional: Add this if you want it to scale down slightly when clicked */
+.card:active {
+  transform: scale(0.99);
+}

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
+    "@next/font": "^14.2.15",
     "firebase": "^11.0.1",
     "fs": "^0.0.1-security",
     "lucide-react": "^0.454.0",

@@ -47,7 +47,7 @@ export default function Home() {
           onClick={() => setIsModalOpen(false)}
         />
       )}
-      <h1 className="grid place-items-center p-4 text-2xl">Inventory Management</h1>
+      <h1 className="grid place-items-center font-semibold p-4 mb-4 text-3xl">Inventory Management</h1>
 
       <div className="mx-4 md:mx-6">
         {/* <button onClick={() => setIsModalOpen(true)}
@@ -71,7 +71,7 @@ export default function Home() {
               onChange={(e) => {
                 fetchInventory(e.target.value);
               }}
-              type="search" id="inventorySearch" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-opacity-10 bg-blue-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Inventory..." />
+              type="search" id="inventorySearch" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg searchBg focus:ring-black focus:border-black" placeholder="Search Inventory..." />
           </div>
 
         </div>
@@ -80,7 +80,7 @@ export default function Home() {
 
 
       {/*inventoryList*/}
-      <div className="mx-10 md:mx-48 mt-10 md:mt-24 p-6 rounded-xl bg-green-200">
+      <div className="mx-10 md:mx-48 mt-5 md:mt-10 p-4 rounded-xl bg-blue-100 h-[calc(100vh-40vh)]">
 
         <div className="max-w-md flex  mx-auto my-2">
           <div>
@@ -147,10 +147,10 @@ export default function Home() {
             <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-blue-500"></div>
           </div>
         ) : (
-          <div className="grid gap-4 p-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 p-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 h-full overflow-y-auto">
 
             {inventory.map(({ name, quantity }) => (
-              <div key={name} className="p-3 bg-blue-100 rounded-lg flex justify-between items-center">
+              <div key={name} className="p-5 h-20 card bg-white border-1 cardBg shadow-2xl rounded-lg flex justify-between items-center">
                 <span className="text-xl">{name.charAt(0).toUpperCase() + name.slice(1)}</span>
                 <div className="flex space-x-2">
                   <button
@@ -158,14 +158,14 @@ export default function Home() {
                       addInventoryItem(name);
                       fetchInventory("");
                     }}
-                    className="text-2xl text-blue-500">+</button>
+                    className="text-2xl primary-button">+</button>
                   <p className="text-2xl">{quantity}</p>
                   <button
                     onClick={() => {
                       removeInventoryItem(name);
                       fetchInventory("");
                     }}
-                    className="text-2xl text-blue-500">-</button>
+                    className="text-2xl secondary-button">-</button>
                 </div>
               </div>
             ))}
@@ -176,13 +176,13 @@ export default function Home() {
 
 
       </div>
-      <footer className="fixed bottom-0 w-full bg-blue-600 py-4">
+      <footer className="fixed bottom-0 w-full py-4">
         <div className="container mx-auto px-4">
           <div className="relative">
-            <button onClick={() => setIsModalOpen(true)} className="fixed bottom-4 right-4 bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-2xl shadow-lg">
+            <button onClick={() => setIsModalOpen(true)} className="fixed bottom-4 right-4 bg-black hover:animate-pulse text-white p-3 rounded-2xl shadow-lg">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"><path d="M12 8.5v7M8.5 12h7" /><rect width="16.5" height="16.5" x="3.75" y="3.75" rx="4" /></g></svg>
             </button>
-            <button onClick={() => setOpenCamera(true)} className="fixed bottom-4 left-4 bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-2xl shadow-lg">
+            <button onClick={() => setOpenCamera(true)} className="fixed bottom-4 left-4 bg-black hover:animate-pulse text-white p-3 rounded-2xl shadow-lg">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"><path d="M12.857 3.189h-1.714c-.681 0-1.022 0-1.331.094c-.274.083-.529.22-.75.401c-.25.205-.438.489-.816 1.056L7.103 6.454c-1.524 0-2.286 0-2.868.296a2.72 2.72 0 0 0-1.188 1.19c-.297.581-.297 1.343-.297 2.867v5.651c0 1.524 0 2.286.297 2.868c.26.512.677.928 1.188 1.189c.582.296 1.344.296 2.868.296h9.794c1.524 0 2.286 0 2.868-.296a2.72 2.72 0 0 0 1.188-1.19c.297-.581.297-1.343.297-2.867v-5.651c0-1.524 0-2.286-.297-2.868a2.72 2.72 0 0 0-1.188-1.189c-.582-.296-1.344-.296-2.868-.296L15.754 4.74c-.378-.567-.567-.85-.816-1.056a2.2 2.2 0 0 0-.75-.401c-.309-.094-.65-.094-1.331-.094" /><path d="M15.775 13.212a3.775 3.775 0 1 1-7.55 0a3.775 3.775 0 0 1 7.55 0" /></g></svg>
             </button>
           </div>

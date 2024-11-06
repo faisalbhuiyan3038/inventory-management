@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Inter, DM_Sans } from 'next/font/google'
 import "./globals.css";
 
 const geistSans = localFont({
@@ -13,6 +14,20 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+const inter = Inter({
+  subsets: ['latin'],
+  // optional: specify weight
+  weight: ['400', '500', '600', '700'],
+  // optional: specify display
+  display: 'swap',
+})
+
+const dm_sans = DM_Sans({
+  subsets: ['latin'],
+  // optional: specify weight
+  weight: ['400', '500', '600', '700'],
+})
+
 export const metadata: Metadata = {
   title: "AI Inventory Management",
   description: "Created by Faisal Bhuiyan",
@@ -24,9 +39,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={dm_sans.className}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
       </body>
