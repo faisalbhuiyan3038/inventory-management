@@ -3,15 +3,43 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Camera } from 'react-camera-pro';
 import { Camera as CameraIcon, X, ArrowLeft, Send, SwitchCamera, Flashlight } from 'lucide-react';
+import { addInventoryItem, getInventoryItems } from '@/inventoryService';
 import PropTypes from 'prop-types';
 
-const CameraPage = ({ setOpenCamera, image, setImage, addItemByImage }) => {
+const CameraPage = ({ setOpenCamera, image, setImage }) => {
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [showImage, setShowImage] = useState(false);
   const camera = useRef(null);
   const [devices, setDevices] = useState([]);
   const [activeDeviceId, setActiveDeviceId] = useState(undefined);
   const [torchToggled, setTorchToggled] = useState(false);
+
+  async function fetchInventory(searchText) {
+    setIsLoading(true);
+    const items = await getInventoryItems(searchText);
+    setInventory(items);
+    setIsLoading(false);
+  }
+
+  async function addItemByImage(base64Image) {
+    try {
+      const res = await fetch('api/imageGen', {
+        method: POST,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ base64Image }),
+      });
+      if (!res.ok) {
+        throw new Error('Failed to generate an Inventory Name');
+      }
+      const data = await res.json();
+
+      addInventoryItem(data.text);
+      fetchInventory("");
+      console.log(data.text);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -40,7 +68,7 @@ const CameraPage = ({ setOpenCamera, image, setImage, addItemByImage }) => {
           <button
             className="absolute bottom-4 right-4 z-50 p-3 bg-blue-600 rounded-full hover:bg-blue-700 transition-colors flex items-center justify-center"
             onClick={() => {
-              addItemByImage();
+              addItemByImage(base64Image);
               setShowImage(false);
               setOpenCamera();
             }}
@@ -138,7 +166,6 @@ const CameraPage = ({ setOpenCamera, image, setImage, addItemByImage }) => {
 };
 
 CameraPage.propTypes = {
-  addItemByImage: PropTypes.func.isRequired,
   setOpenCamera: PropTypes.func.isRequired,
   image: PropTypes.object,
   setImage: PropTypes.func.isRequired,
