@@ -1,5 +1,5 @@
 import { db } from './firebase.js';
-import { doc, query, collection, getDoc, setDoc, getDocs, docSnap, deleteDoc } from 'firebase/firestore';
+import { doc, query, collection, getDoc, setDoc, getDocs, deleteDoc } from 'firebase/firestore';
 
 //Function to add new item to inventory
 export async function addInventoryItem(itemName) {

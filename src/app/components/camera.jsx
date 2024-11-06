@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Camera } from 'react-camera-pro';
 import { Camera as CameraIcon, X, ArrowLeft, Send, SwitchCamera, Flashlight } from 'lucide-react';
-import { addInventoryItem, getInventoryItems } from '@/inventoryService';
 import PropTypes from 'prop-types';
 
 const CameraPage = ({ setOpenCamera, image, setImage }) => {
@@ -11,7 +10,7 @@ const CameraPage = ({ setOpenCamera, image, setImage }) => {
   const [showImage, setShowImage] = useState(false);
   const camera = useRef(null);
   const [devices, setDevices] = useState([]);
-  const [activeDeviceId, setActiveDeviceId] = useState(undefined);
+  const [activeDeviceId] = useState(undefined);
   const [torchToggled, setTorchToggled] = useState(false);
 
   async function addItemByImage(base64Image) {
@@ -37,7 +36,7 @@ const CameraPage = ({ setOpenCamera, image, setImage }) => {
   useEffect(() => {
     (async () => {
       if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
-        const devices = await navigator.mediaDevices.enumerateDevices();
+        devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter((i) => i.kind === 'videoinput');
         setDevices(videoDevices);
       } else {
