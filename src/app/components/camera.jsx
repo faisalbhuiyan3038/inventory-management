@@ -14,17 +14,10 @@ const CameraPage = ({ setOpenCamera, image, setImage }) => {
   const [activeDeviceId, setActiveDeviceId] = useState(undefined);
   const [torchToggled, setTorchToggled] = useState(false);
 
-  async function fetchInventory(searchText) {
-    setIsLoading(true);
-    const items = await getInventoryItems(searchText);
-    setInventory(items);
-    setIsLoading(false);
-  }
-
   async function addItemByImage(base64Image) {
     try {
-      const res = await fetch('api/imageGen', {
-        method: POST,
+      const res = await fetch('/api/imageGen', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ base64Image }),
       });
@@ -34,7 +27,7 @@ const CameraPage = ({ setOpenCamera, image, setImage }) => {
       const data = await res.json();
 
       addInventoryItem(data.text);
-      fetchInventory("");
+      setOpenCamera(false);
       console.log(data.text);
     } catch (error) {
       console.log(error);
@@ -43,9 +36,13 @@ const CameraPage = ({ setOpenCamera, image, setImage }) => {
 
   useEffect(() => {
     (async () => {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoDevices = devices.filter((i) => i.kind === 'videoinput');
-      setDevices(videoDevices);
+      if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter((i) => i.kind === 'videoinput');
+        setDevices(videoDevices);
+      } else {
+        console.error("MediaDevices API not supported on this browser.");
+      }
     })();
   }, []);
 
@@ -68,7 +65,8 @@ const CameraPage = ({ setOpenCamera, image, setImage }) => {
           <button
             className="absolute bottom-4 right-4 z-50 p-3 bg-blue-600 rounded-full hover:bg-blue-700 transition-colors flex items-center justify-center"
             onClick={() => {
-              addItemByImage(base64Image);
+
+              addItemByImage(image);
               setShowImage(false);
               setOpenCamera();
             }}

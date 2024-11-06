@@ -32,6 +32,7 @@ export default function Home() {
           setImage={(value) => setImage(value)}
           setOpenCamera={() => {
             setOpenCamera(false);
+            fetchInventory("");
           }}
         />
       </div>
