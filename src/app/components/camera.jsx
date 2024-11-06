@@ -36,14 +36,14 @@ const CameraPage = ({ setOpenCamera, image, setImage }) => {
   useEffect(() => {
     (async () => {
       if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
-        devices = await navigator.mediaDevices.enumerateDevices();
+        setDevices(await navigator.mediaDevices.enumerateDevices());
         const videoDevices = devices.filter((i) => i.kind === 'videoinput');
         setDevices(videoDevices);
       } else {
         console.error("MediaDevices API not supported on this browser.");
       }
     })();
-  }, []);
+  }, [devices]);
 
   return (
     <div className="fixed w-full h-full z-10">
