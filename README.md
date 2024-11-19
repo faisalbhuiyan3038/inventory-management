@@ -32,8 +32,9 @@
 <h3 align="center">Inventory Management With Gemini</h3>
 
   <p align="center">
-    This project aims to simplify the manual process of adding items to inventory and managing them by including the ability to simply take a picture and instantly add the item to Inventory without having to manually type the name. Read the Case Study <a href="https://faisalbhuiyan.vercel.app/work/inventory-management-with-ai">here</a>
+    This project aims to simplify the manual process of adding items to inventory and managing them by including the ability to simply take a picture and instantly add the item to Inventory without having to manually type the name. 
     <br />
+    Read the Case Study <a href="https://faisalbhuiyan.vercel.app/work/inventory-management-with-ai">here</a>
     <br />
     <br />
     <a href="https://inventory-management-6948.vercel.app/">View Demo</a>
